@@ -191,8 +191,11 @@ function markAsPaidNew(username) {
         statusData[itemIndex].status = 'paid';
     }
     
-    // Update display immediately
-    displayStatusResults('all');
+    // Get current active filter
+    const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
+    
+    // Update display with current filter
+    displayStatusResults(activeFilter);
     
     // Send update to Google Sheets
     fetch(url, {
@@ -207,6 +210,8 @@ function markAsPaidNew(username) {
         })
     });
 }
+
+
 
 
 function startAutoRefresh() {
