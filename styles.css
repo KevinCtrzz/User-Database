@@ -18,6 +18,15 @@ body {
   padding: 40px 20px;
 }
 
+.container {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
 .search-card {
   background-color: var(--container-color);
   border-radius: 24px;
@@ -25,6 +34,10 @@ body {
   padding: 40px;
   width: 480px;
   text-align: center;
+}
+
+.payment-status {
+  width: 380px;
 }
 
 .title {
@@ -60,14 +73,82 @@ body {
   color: var(--secondary-color);
 }
 
-.results {
+.results, .status-results {
   color: var(--secondary-color);
   font-size: 18px;
   margin-top: 24px;
+}
+
+.filter-controls {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.filter-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  background: #f1f3f5;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: var(--font-family);
+}
+
+.filter-btn.active {
+  background: var(--primary-color);
+  color: white;
+}
+
+.filter-btn:hover {
+  background: var(--primary-color);
+  color: white;
+  transform: translateY(-2px);
+}
+
+.status-results .result-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  margin: 10px 0;
+  background: #f8f9fa;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.status-results .result-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.status-results .result-item.paid {
+  border-left: 4px solid #28a745;
+}
+
+.status-results .result-item.unpaid {
+  border-left: 4px solid #dc3545;
 }
 
 .footer {
   margin-top: 40px;
   color: var(--secondary-color);
   font-size: 14px;
+}
+
+@media (max-width: 1024px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .search-card {
+    width: 90%;
+    max-width: 480px;
+  }
+  
+  .payment-status {
+    width: 90%;
+    max-width: 480px;
+  }
 }

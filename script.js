@@ -1,7 +1,9 @@
-const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRngVEmiDseBCI07YF8jeprAA8QvVwAYY9mwV4LWcgf6oCGKB1vM1zSL8WC9r1H4DLHRymodQAIa8BQ/pubhtml';
+const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1tQ2HT2qIHLaDASAhXNI9e4TF7CjjEiDZ4ji2StqTS_A/edit?gid=1088358610#gid=1088358610';
+const STATUS_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSbFw0icnOR-UZnFBT86GGx2DH4zt6ULBAfZUBLH-2GZE9FzXGR_sYDXB7MSrI21A8q9F2iwhi-crDE/pubhtml';
 
 const searchInput = document.querySelector('.search-input');
 const resultsDiv = document.querySelector('.results');
+const statusResultsDiv = document.querySelector('.status-results');
 
 // Update placeholder text to match your data
 searchInput.placeholder = "Search by Discord ID, Username, or Epic IGN...";
@@ -21,6 +23,7 @@ function debounce(func, wait) {
 }
 
 let sheetData = null;
+let statusData = null;
 
 async function fetchSheetData() {
     try {
@@ -45,7 +48,7 @@ async function fetchSheetData() {
                 dateSubmitted: cells[6]?.textContent || '',
                 notes: cells[7]?.textContent || ''
             };
-        }).filter(row => row.discordId || row.discordUsername); // Filter out empty rows
+        }).filter(row => row.discordId || row.discordUsername);
     } catch (error) {
         console.error('Error fetching data:', error);
         resultsDiv.innerHTML = 'Error loading data. Please try again later.';
@@ -70,7 +73,33 @@ function handleSearch() {
         row.discordUsername.toLowerCase().includes(searchTerm) ||
         row.epicIgn.toLowerCase().includes(searchTerm)
     );
-
+    function displayResults(results) {
+        if (results.length === 0) {
+            resultsDiv.innerHTML = 'No results found';
+            return;
+        }
+    
+        // Filter out the disclaimer message
+        results = results.filter(row => 
+            !row.discordId.includes('Quotes are not sourced')
+        );
+    
+        resultsDiv.innerHTML = results
+            .map(row => `
+                <div class="result-item">
+                    <p><strong>Discord ID:</strong> ${row.discordId}</p>
+                    <p><strong>Discord Username:</strong> ${row.discordUsername}</p>
+                    <p><strong>Epic IGN:</strong> ${row.epicIgn}</p>
+                    <p><strong>Cash-App:</strong> ${row.cashApp}</p>
+                    <p><strong>PayPal:</strong> ${row.payPal}</p>
+                    <p><strong>Preferred Payment:</strong> ${row.preferredPayment}</p>
+                    <p><strong>Date Submitted:</strong> ${row.dateSubmitted}</p>
+                    ${row.notes !== 'N/A' ? `<p><strong>Notes:</strong> ${row.notes}</p>` : ''}
+                </div>
+            `)
+            .join('');
+    }
+    
     displayResults(results);
 }
 
@@ -96,5 +125,66 @@ function displayResults(results) {
         .join('');
 }
 
-// Load data when page loads
+// New Payment Status Functions
+async function fetchStatusData() {
+    try {
+        const response = await fetch(STATUS_SHEET_URL);
+        const text = await response.text();
+        
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(text, 'text/html');
+        const rows = doc.querySelectorAll('tbody tr');
+        
+        statusData = Array.from(rows).slice(1).map(row => {
+            const cells = row.querySelectorAll('td');
+            return {
+                username: cells[0]?.textContent || '',
+                amount: cells[1]?.textContent || '',
+                status: cells[2]?.textContent.toLowerCase() || ''
+            };
+        });
+        
+        displayStatusResults('all');
+    } catch (error) {
+        console.error('Error fetching status data:', error);
+        statusResultsDiv.innerHTML = 'Error loading payment status data.';
+    }
+}
+
+function displayStatusResults(filter) {
+    if (!statusData) {
+        statusResultsDiv.innerHTML = 'Loading data...';
+        return;
+    }
+
+    const filteredData = filter === 'all' 
+        ? statusData 
+        : statusData.filter(item => item.status === filter);
+
+    if (filteredData.length === 0) {
+        statusResultsDiv.innerHTML = 'No results found';
+        return;
+    }
+
+    statusResultsDiv.innerHTML = filteredData
+        .map(item => `
+            <div class="result-item ${item.status}">
+                <span>${item.username}</span>
+                <span>$${item.amount}</span>
+            </div>
+        `)
+        .join('');
+}
+
+// Filter button event listeners
+document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        e.target.classList.add('active');
+        displayStatusResults(e.target.dataset.filter);
+    });
+});
+
+// Load both data sets when page loads
 fetchSheetData();
+fetchStatusData();
