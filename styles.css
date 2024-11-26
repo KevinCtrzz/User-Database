@@ -185,3 +185,31 @@ body {
   position: relative;
   z-index: 1;
 }
+.social-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  margin: 20px 0;
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  font-size: 18px;
+  transition: transform 0.2s;
+}
+
+.twitch-link {
+  color: #6441a5; /* Twitch Purple */
+}
+
+.youtube-link {
+  color: #ff0000; /* YouTube Red */
+}
+
+.social-link:hover {
+  transform: scale(1.1);
+}
