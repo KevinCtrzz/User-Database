@@ -1,4 +1,4 @@
-const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1tQ2HT2qIHLaDASAhXNI9e4TF7CjjEiDZ4ji2StqTS_A/edit?gid=1088358610#gid=1088358610';
+const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1Cx2A4q_EaRbXVtHsXBPGFQ23XaR2hSZo1qIhk9VIvWw/edit?resourcekey=&gid=1841594051#gid=1841594051';
 const STATUS_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSbFw0icnOR-UZnFBT86GGx2DH4zt6ULBAfZUBLH-2GZE9FzXGR_sYDXB7MSrI21A8q9F2iwhi-crDE/pubhtml';
 
 const searchInput = document.querySelector('.search-input');
@@ -40,13 +40,13 @@ async function fetchSheetData() {
             const cells = row.querySelectorAll('td');
             return {
                 discordId: cells[0]?.textContent || '',
-                discordUsername: cells[1]?.textContent || '',
-                epicIgn: cells[2]?.textContent || '',
-                cashApp: cells[3]?.textContent || '',
-                payPal: cells[4]?.textContent || '',
-                preferredPayment: cells[5]?.textContent || '',
-                dateSubmitted: cells[6]?.textContent || '',
-                notes: cells[7]?.textContent || ''
+                discordUsername: cells[0]?.textContent || '',
+                epicIgn: cells[1]?.textContent || '',
+                cashApp: cells[2]?.textContent || '',
+                payPal: cells[3]?.textContent || '',
+                preferredPayment: cells[4]?.textContent || '',
+                dateSubmitted: cells[5]?.textContent || '',
+                notes: cells[6]?.textContent || ''
             };
         }).filter(row => row.discordId || row.discordUsername);
     } catch (error) {
@@ -73,33 +73,33 @@ function handleSearch() {
         row.discordUsername.toLowerCase().includes(searchTerm) ||
         row.epicIgn.toLowerCase().includes(searchTerm)
     );
-    function displayResults(results) {
-        if (results.length === 0) {
-            resultsDiv.innerHTML = 'No results found';
-            return;
-        }
-    
-        // Filter out the disclaimer message
-        results = results.filter(row => 
-            !row.discordId.includes('Quotes are not sourced')
-        );
-    
-        resultsDiv.innerHTML = results
-            .map(row => `
-                <div class="result-item">
-                    <p><strong>Discord ID:</strong> ${row.discordId}</p>
-                    <p><strong>Discord Username:</strong> ${row.discordUsername}</p>
-                    <p><strong>Epic IGN:</strong> ${row.epicIgn}</p>
-                    <p><strong>Cash-App:</strong> ${row.cashApp}</p>
-                    <p><strong>PayPal:</strong> ${row.payPal}</p>
-                    <p><strong>Preferred Payment:</strong> ${row.preferredPayment}</p>
-                    <p><strong>Date Submitted:</strong> ${row.dateSubmitted}</p>
-                    ${row.notes !== 'N/A' ? `<p><strong>Notes:</strong> ${row.notes}</p>` : ''}
-                </div>
-            `)
-            .join('');
+function displayResults(results) {
+    if (results.length === 0) {
+        resultsDiv.innerHTML = 'No results found';
+        return;
     }
-    
+
+    // Filter out the disclaimer message
+    results = results.filter(row => 
+        !row.discordId.includes('Quotes are not sourced')
+    );
+
+    resultsDiv.innerHTML = results
+        .map(row => `
+            <div class="result-item">
+                <p><strong>Discord ID:</strong> ${row.discordId}</p>
+                <p><strong>Discord Username:</strong> ${row.discordUsername}</p>
+                <p><strong>Epic IGN:</strong> ${row.epicIgn}</p>
+                <p><strong>Cash-App:</strong> ${row.cashApp}</p>
+                <p><strong>PayPal:</strong> ${row.payPal}</p>
+                <p><strong>Preferred Payment:</strong> ${row.preferredPayment}</p>
+                <p><strong>Date Submitted:</strong> ${row.dateSubmitted}</p>
+                ${row.notes !== 'N/A' ? `<p><strong>Notes:</strong> ${row.notes}</p>` : ''}
+            </div>
+        `)
+        .join('');
+}
+
     displayResults(results);
 }
 
