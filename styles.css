@@ -181,3 +181,15 @@ body {
   color: #007bff;
   font-style: italic;
 }
+.main-title {
+  font-size: 72px;
+  text-align: center;
+  color: #007bff;
+  margin: 20px 0 40px 0;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.15);
+  position: relative;
+  z-index: 1;
+}
