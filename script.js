@@ -184,6 +184,17 @@ function displayStatusResults(filter) {
 
 function markAsPaidNew(username) {
     const url = 'https://script.google.com/macros/s/AKfycbyPgT1PJkBq2sWaLXmLQ5g97oZmZ5iuOUUbTJFOAcmlQyNJwb0Z0YxQUipn4ploU5yOiw/exec';
+    
+    // Find and update the item in statusData
+    const itemIndex = statusData.findIndex(item => item.username === username);
+    if (itemIndex !== -1) {
+        statusData[itemIndex].status = 'paid';
+    }
+    
+    // Update display immediately
+    displayStatusResults('all');
+    
+    // Send update to Google Sheets
     fetch(url, {
         method: 'POST',
         mode: 'no-cors',
@@ -194,14 +205,9 @@ function markAsPaidNew(username) {
             username: username,
             status: 'PAID'
         })
-    })
-    .then(() => {
-        const button = document.querySelector(`button[onclick="markAsPaidNew('${username}')"]`);
-        button.textContent = '✓';
-        button.style.backgroundColor = '#198754';
-        fetchStatusData();
     });
 }
+
 
 function startAutoRefresh() {
     setInterval(() => {
