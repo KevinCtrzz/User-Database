@@ -213,3 +213,11 @@ body {
 .social-link:hover {
   transform: scale(1.1);
 }
+.social-link {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  transition: transform 0.2s;
+}
