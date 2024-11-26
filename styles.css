@@ -221,3 +221,53 @@ body {
   font-size: 18px;
   transition: transform 0.2s;
 }
+/* For search results - vertical layout */
+.results .result-item {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 20px;
+  margin: 8px 0;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+/* For payment status - horizontal layout */
+.status-results .result-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  margin: 8px 0;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.payment-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.amount {
+  font-weight: bold;
+}
+
+.paidout-btn {
+  background: #28a745;
+  color: white;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.paidout-btn:hover {
+  background: #218838;
+  transform: scale(1.1);
+}

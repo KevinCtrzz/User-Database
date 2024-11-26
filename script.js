@@ -169,12 +169,46 @@ function displayStatusResults(filter) {
     statusResultsDiv.innerHTML = filteredData
         .map(item => `
             <div class="result-item ${item.status}">
-                <span>${item.username}</span>
-                <span>$${item.amount}</span>
+                <span class="username">${item.username}</span>
+                <div class="payment-section">
+                    <span class="amount">$${item.amount}</span>
+                    ${item.status !== 'paid' ? 
+                        `<button class="paidout-btn" onclick="markAsPaidNew('${item.username}')">✓</button>`
+                        : ''
+                    }
+                </div>
             </div>
         `)
         .join('');
 }
+
+function markAsPaidNew(username) {
+    const url = 'https://script.google.com/macros/s/AKfycbyPgT1PJkBq2sWaLXmLQ5g97oZmZ5iuOUUbTJFOAcmlQyNJwb0Z0YxQUipn4ploU5yOiw/exec';
+    fetch(url, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            username: username,
+            status: 'PAID'
+        })
+    })
+    .then(() => {
+        const button = document.querySelector(`button[onclick="markAsPaidNew('${username}')"]`);
+        button.textContent = '✓';
+        button.style.backgroundColor = '#198754';
+        fetchStatusData();
+    });
+}
+
+function startAutoRefresh() {
+    setInterval(() => {
+        fetchStatusData();
+    }, 1000);
+}
+
 
 // Filter button event listeners
 document.querySelectorAll('.filter-btn').forEach(btn => {
