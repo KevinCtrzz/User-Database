@@ -1,4 +1,4 @@
-const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1Cx2A4q_EaRbXVtHsXBPGFQ23XaR2hSZo1qIhk9VIvWw/edit?resourcekey=&gid=1841594051#gid=1841594051';
+const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSEIGOflRrcm0A7Fy-PQE3s2ovmSSOeM_hX_lTaDy2bOHrwDR7J4pKzavsU08MsawVnmCd7yg3ZPiFr/pubhtml';
 const STATUS_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSbFw0icnOR-UZnFBT86GGx2DH4zt6ULBAfZUBLH-2GZE9FzXGR_sYDXB7MSrI21A8q9F2iwhi-crDE/pubhtml';
 
 const searchInput = document.querySelector('.search-input');
