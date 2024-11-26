@@ -164,14 +164,6 @@ body {
   text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.15);
 }
 
-.contributions {
-  text-align: center;
-  font-size: 18px;
-  color: #007bff;
-  margin: 20px 0;
-  padding: 10px;
-  font-weight: 500;
-}
 
 .trademark {
   position: fixed;
